@@ -1,6 +1,6 @@
 'use strict';
 
-let money = prompt("Vash byudzhet na mesyac ?"),
+let money = +prompt("Vash byudzhet na mesyac ?"),
      time = prompt("Vvedite datu v formate YYYY-MM-DD");
 
 let appData = {
@@ -12,17 +12,55 @@ let appData = {
     savings : false
 }
 
-let a1 = prompt("Vvedite obyazatelnuyu statyu rashodov v eton mesyace"),
-    a2 = prompt("Vo skolko oboydetsya ?"),
-    a3 = prompt("Vvedite obyazatelnuyu statyu rashodov v eton mesyace"),
-    a4 = prompt("Vo skolko oboydetsya ?");
+// Cikl1
+// for (let i = 0; i < 2; i++) {
+//     let a = prompt("Vvedite obyazatelnuyu statyu rashodov v eton mesyace"),
+//         b = prompt("Vo skolko oboydetsya ?");
+//     if ((typeof(a)) === 'string' && (typeof(a)) != null && (typeof(b)) != null && a != '' && b != '' && a.length < 50) {
+//         console.log("done");
+//         appData.expenses[a] = b ;
+//     } else {        
+//     }       
+// }
 
-appData.expenses[a1] = a2 ;
-appData.expenses[a3] = a4 ;
+// Cikl2
+// let i = 0;
+// while (i < 2) {
+//     let a = prompt("Vvedite obyazatelnuyu statyu rashodov v eton mesyace"),
+//         b = prompt("Vo skolko oboydetsya ?");
+//         if ((typeof(a)) === 'string' && (typeof(a)) != null && (typeof(b)) != null && a != '' && b != '' && a.length < 50) {
+//             console.log("done");
+//             appData.expenses[a] = b ;
+//         } else {        
+//         }   
+//         i++;
+// }
 
+// Cikl3 
+let i = 0;
+do {
+    let a = prompt("Vvedite obyazatelnuyu statyu rashodov v eton mesyace"),
+        b = prompt("Vo skolko oboydetsya ?");
+        if ((typeof(a)) === 'string' && (typeof(a)) != null && (typeof(b)) != null && a != '' && b != '' && a.length < 50) {
+            console.log("done");
+            appData.expenses[a] = b ;
+        } else {        
+        }   
+        i++;
+} while (i < 2);
 
-alert("Byudzhet na 1 den : " + (appData.byudzhet/30));
+appData.moneyPerDay = appData.byudzhet / 30;
 
+alert("Byudzhet na 1 den : " + appData.moneyPerDay);
 
+if (appData.moneyPerDay < 100) {
+    console.log("min level dostatka")
+} else if (appData.moneyPerDay > 100 && appData.moneyPerDay < 2000) {
+    console.log("Sredniy level dostatka")
+} else if (appData.moneyPerDay > 2000) {
+    console.log("Vysokiy uroven dostatka")
+} else {
+    console.log("Proizoshla oshibka")
+}
 
 console.log(appData.expenses);

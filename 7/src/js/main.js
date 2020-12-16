@@ -19,11 +19,17 @@ let startBtn = document.getElementById("start"),
     percentValue = document.querySelector('.choose-percent'),
     yearValue = document.querySelector('.year-value'),
     monthValue = document.querySelector('.month-value'),
-    dayValue = document.querySelector('.day-value');
+    dayValue = document.querySelector('.day-value'),
+    btn = document.getElementsByTagName('button');
     
 let money, time;
 
 startBtn.addEventListener('click', function() {
+
+    for (let i=0; i<3; i++) { 
+        btn[i].disabled = false;
+    };
+
     time = prompt("Vvedite datu v formate YYYY-MM-DD");
     money = +prompt("Vash byudget na mesyac ?");
     
@@ -53,7 +59,7 @@ expensesBtn.addEventListener('click', function() {
         i = i - 1;
         }       
         expensesValue.textContent = sum;
-    }
+    }   
 });
 
 optionalExpensesBtn.addEventListener('click', function() {
@@ -68,14 +74,14 @@ countBtn.addEventListener('click', function() {
 
     if (appData.byudget != undefined) {
         
-        appData.moneyPerDay = (appData.byudget / 30).toFixed();
+        appData.moneyPerDay = ((appData.byudget - expensesValue.textContent) / 30).toFixed();
         dayBudgetValue.textContent = appData.moneyPerDay;
 
         if (appData.moneyPerDay < 100) {
             levelValue.textContent = "min level dostatka";
-        } else if (appData.moneyPerDay > 100 && appData.moneyPerDay < 2000) {
+        } else if (appData.moneyPerDay >= 100 && appData.moneyPerDay < 2000) {
             levelValue.textContent = "Sredniy level dostatka";
-        } else if (appData.moneyPerDay > 2000) {
+        } else if (appData.moneyPerDay >= 2000) {
             levelValue.textContent = "Vysokiy uroven dostatka";
         } else {
             levelValue.textContent = "Proizoshla oshibka";
@@ -125,6 +131,8 @@ percentValue.addEventListener('input', function() {
     }
 });
 
+
+
 let appData = {
     byudget : money,
     timeData : time,
@@ -132,4 +140,8 @@ let appData = {
     optionalExpenses : {},
     income : [],
     savings : false 
+};
+
+for (let i=0; i<3; i++) { 
+    btn[i].disabled = true;
 };

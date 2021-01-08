@@ -33,4 +33,197 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    //timer 
+    let deadline = '2020-12-31';
+
+    function getTimeRemaining(endtime) {
+        let t = Date.parse(endtime) - Date.parse(new Date()),
+            seconds = Math.floor((t/1000)%60),
+            minutes = Math.floor((t/1000/60)%60),
+            hours = Math.floor(t/1000/60/60);
+
+        return {
+            'total' : t,
+            'hours' : hours,
+            'minutes' : minutes,
+            'seconds' : seconds
+        };
+    }
+
+    function setClock(id, endtime) {
+        let timer = document.getElementById(id),
+            hours = timer.querySelector('.hours'),
+            minutes = timer.querySelector('.minutes'),
+            seconds = timer.querySelector('.seconds'),
+            timeInterval = setInterval(updateClock, 1000);
+            
+        function updateClock() {
+            let t = getTimeRemaining(endtime);
+            hours.textContent = addZero(t.hours);
+            minutes.textContent = addZero(t.minutes);
+            seconds.textContent = addZero(t.seconds);
+
+            if(t.total <= 0) {
+                clearInterval(timeInterval);
+            }
+        }
+
+        function addZero(time) {
+            if (time < 10) {
+                return '0' + time;
+            } else {
+                return time;
+            };
+        }
+    }
+
+    setClock('timer', deadline);
+
+    //modal wimdow
+
+    let more = document.querySelector('.more');  
+
+    function modalWin(atr){
+            let more = atr,        
+            overlay = document.querySelector('.overlay'),
+            close = document.querySelector('.popup-close');
+
+        more.addEventListener('click', function() {
+            overlay.style.display = 'block';
+            this.classList.add('more-splash');
+            document.body.style.overflow = 'hidden';
+        });
+
+        close.addEventListener('click', function() {
+            overlay.style.display = 'none';
+            more.classList.remove('more-splash');
+            document.body.style.overflow = '';
+        });
+    };
+
+    modalWin(more);
+
+    // modal description-btn
+    let descriptionBtns = document.querySelectorAll('.description-btn'),
+        bigBlock = document.querySelector('.info');
+
+        bigBlock.addEventListener('mouseover', function(event) {
+            let target = event.target;
+            
+            if (target && target.classList.contains('description-btn')) {
+               modalWin(target);
+            }
+        });
+               
+
+        
+    // console.log(descriptionBtns);
+
+
+
+
+    //Forms otpravka http zaprosa
+/*
+    let message = {
+        loading: 'Zagruzka...',
+        succses: 'Spasibo.Skoro my s vami svyazhemsya!',
+        failure: 'Chto-to poshlo ne tak...'
+    }
+
+    let form = document.querySelector('.main-form'),
+        input = form.getElementsByTagName('input'),
+        statusMessage = document.createElement('div');
+
+        statusMessage.classList.add('status');
+        
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            form.appendChild(statusMessage);
+
+            let request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            
+            let formData = new FormData(form);
+            request.send(formData);
+
+            request.addEventListener('readystatechange', function() {
+                if (request.readyState < 4) {
+                    statusMessage.innerHTML = message.loading;
+                } else if (request.readyState === 4 && request.status == 200) {
+                    statusMessage.innerHTML = message.succses;
+                } else {
+                    statusMessage.innerHTML = message.failure;
+                }
+            });
+
+            for (let i = 0; i < input.length; i++ ) {
+                input[i].value = '';
+            }
+        });
+*/
+
+    
+    //Forms otpravka JSON zaprosa
+    let formModal = document.querySelector('.main-form'),
+        contactForm = document.querySelector('#form');
+
+        sendJson(formModal);
+        sendJson(contactForm);
+
+function sendJson(form) {
+    let message = {
+        loading: 'Zagruzka...',
+        succses: 'Spasibo.Skoro my s vami svyazhemsya!',
+        failure: 'Chto-to poshlo ne tak...'
+    }
+
+    let //form = forma,
+        input = form.getElementsByTagName('input'),
+        statusMessage = document.createElement('div');
+
+        statusMessage.classList.add('status');
+        
+
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            form.appendChild(statusMessage);
+
+            let request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+            request.setRequestHeader('content-type', 'application/json; charset=utf-8');
+            
+            let formData = new FormData(form);
+
+            let obj = {};
+            formData.forEach(function(value, key){
+                obj[key] = value;
+            });
+
+            console.log(obj);
+            
+            let json = JSON.stringify(obj);
+
+            request.send(json);
+
+            request.addEventListener('readystatechange', function() {
+                if (request.readyState < 4) {
+                    statusMessage.innerHTML = message.loading;
+                } else if (request.readyState === 4 && request.status == 200) {
+                    statusMessage.innerHTML = message.succses;
+                } else {
+                    statusMessage.innerHTML = message.failure;
+                }
+            });
+
+            
+            for (let i = 0; i < input.length; i++ ) {
+                input[i].value = '';
+            }
+        });
+    };
 });
+
+ 

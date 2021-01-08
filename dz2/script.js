@@ -32,3 +32,4 @@
 // ("ёжик" > "яблоко") ? console.log("verno") : console.log("neverno")
 
 // console.log(0 || "" || 2 || undefined || true || falsе);
+
